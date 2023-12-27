@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>trklist</title>
+<meta name="application-name" content="&nbsp;">
+<meta name="msapplication-TileColor" content="#FFFFFF">
+<meta name="msapplication-TileImage" content="mstile-144x144.png">
+<meta name="msapplication-square70x70logo" content="mstile-70x70.png">
+<meta name="msapplication-square150x150logo" content="mstile-150x150.png">
+<meta name="msapplication-wide310x150logo" content="mstile-310x150.png">
+<meta name="msapplication-square310x310logo" content="mstile-310x310.png">
+</head>
+<style>@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+  @font-face{
+      font-family:"pr";
+      src:url(https://pershann.github.io/-/assets/fonts/mainfont/font.TTF)
+  }
+  *,*:before,*:after{
+      outline:0;
+      -webkit-box-sizing:border-box;
+      box-sizing:border-box
+  }
+  input,button{
+      outline:none
+  }
+  a,a:hover,a:visited{
+      color:#ddd;
+      text-decoration:none
+  }
+  .flex{
+      display:-webkit-flex;
+      display:flex
+  }
+  .flex-wrap{
+      display:-webkit-flex;
+      display:flex;
+      -webkit-flex-wrap:wrap;
+      flex-wrap:wrap
+  }
+  .flex-align{
+      -webkit-align-items:center;
+      align-items:center
+  }
+  .w-full{
+      width:100%
+  }
+  #samz button,#samz input,#samz img{
+      border:0;
+  }
+  #samz{
+      max-width:100%;
+      font-size:23px;
+      font-weight: bolder;
+      font-family:"pr",monospace;
+      text-align:initial;
+      line-height:initial;
+      background:black;/*#7091F5 main*/
+      color:#39FF14;
+      margin:0 auto;
+      border-radius:10px;
+      overflow:hidden;
+  }
+  #samz .samz-album{
+      padding:20px 25px 5px
+  }
+  #samz .samz-album .samz-cover{
+      margin-right:20px
+  }
+  #samz .samz-album .samz-cover img{
+      max-width:80px;
+      width:100%;
+      margin:0;
+      padding:0;
+      display:block
+  }
+  #samz .samz-album .samz-title{
+      font-size:25px;
+      font-weight:bold;
+      color:#39FF14;
+      margin-top: 25px;;
+  }
+  #samz .samz-album .samz-artist{
+      font-size:20px;
+      color:#fff;
+  }
+  #samz .samz-controls{
+      font-size:21px;
+      padding:15px
+  }
+  #samz .samz-controls button{
+      font-size:100%;
+      width:32px;
+      height:32px;
+      background:none;
+      color:#39FF14;
+      padding:7px;
+      cursor:pointer;
+      border:0;
+      border-radius:30px
+  }
+  #samz .samz-controls button[disabled]{
+      color:#39FF14;
+      cursor:initial
+  }
+  #samz .samz-controls button:not([disabled]):hover{
+      background:none;
+      color:#39FF14
+  }
+  #samz .samz-controls .samz-prev,#samz .samz-controls .samz-next{
+      font-size:100%
+  }
+  #samz .samz-controls .samz-tracker,#samz .samz-controls .samz-volume{
+      flex:1;
+      margin-left:10px;
+      position:relative
+  }
+  #samz .samz-controls .samz-buffer{
+      position:absolute;
+      top:50%;
+      right:0;
+      left:0;
+      height:5px;
+      margin-top:-2.5px;
+      border-radius:100px
+  }
+  #samz .samz-controls .samz-loading .samz-buffer{
+      -webkit-animation:audio-progress 1s linear infinite;
+      animation:audio-progress 1s linear infinite;
+      background-image:linear-gradient(-45deg,#fefefe 25%,transparent 25%,transparent 50%,#000000 50%,#39FF14 75%,transparent 75%,transparent);
+      background-repeat:repeat-x;
+      background-size:25px 25px;
+      color:transparent
+  }
+  #samz .samz-controls .samz-time,#samz .samz-controls .samz-others{
+      margin-left:10px
+  }
+  #samz .samz-controls .samz-volume{
+      max-width:110px
+  }
+  #samz .samz-controls .samz-volume .samz-mute{
+      margin-right:5px
+  }
+  #samz .samz-controls .samz-others .samz-active{
+      background:transparent;
+  }
+  #samz .samz-controls .samz-others .samz-shide button{
+      font-size:100%;
+      padding:0;
+      width:24px;
+      height:14px;
+      display:block
+  }
+  #samz .samz-controls input[type="range"]{
+      -webkit-appearance:none;
+      background:transparent;
+      height:19px;
+      margin:0;
+      width:100%;
+      display:block;
+      position:relative;
+      z-index:2
+  }
+  #samz .samz-controls input[type="range"]::-webkit-slider-runnable-track{
+      background:rgba(183,197,205,.66);
+      height:5px;
+      border-radius:2.5px;
+      transition:box-shadow 0.3s ease;
+      position:relative
+  }
+  #samz .samz-controls input[type="range"]::-moz-range-track{
+      background:rgba(183,197,205,.66);
+      height:5px;
+      border-radius:2.5px;
+      transition:box-shadow 0.3s ease;
+      position:relative
+  }
+  #samz .samz-controls .samz-load .samz-progress::-webkit-slider-runnable-track{
+      background:#ffffff87
+  }
+  #samz .samz-controls .samz-load .samz-progress::-moz-range-track{
+      background:#fdfdfd84
+  }
+  #samz .samz-controls .samz-loading .samz-progress::-webkit-slider-runnable-track{
+      background:rgba(255,255,255,.25)
+  }
+  #samz .samz-controls .samz-loading .samz-progress::-moz-range-track{
+      background:rgba(255,255,255,.25)
+  }
+  #samz .samz-controls input[type="range"]::-webkit-slider-thumb{
+      -webkit-appearance:none;
+      background:#fff;
+      height:13px;
+      width:13px;
+      margin-top:-4px;
+      cursor:pointer;
+      border-radius:50%;
+      box-shadow:0 1px 1px rgba(0,0,0,.15),0 0 0 1px rgba(47,52,61,.2)
+  }
+  #samz .samz-controls input[type="range"]::-moz-range-thumb{
+      -webkit-appearance:none;
+      background:#fff;
+      height:13px;
+      width:13px;
+      cursor:pointer;
+      border-radius:50%;
+      box-shadow:0 1px 1px rgba(0,0,0,.15),0 0 0 1px rgba(47,52,61,.2)
+  }
+  #samz .samz-footer{
+      padding:10px 10px 12px;
+      font-size:35px;
+      text-align:center;
+      opacity:1;
+      cursor:pointer
+  }
+  .samzback{
+      text-align:center;
+      font-size:15px;
+      padding:10px 10px 12px
+  }
+  i{
+      color:#39FF14;
+  }
+  #samz .samz-display{
+      overflow:hidden;
+      max-height:650px;
+      transition:max-height 0.5s ease-in-out
+  }
+  #samz .samz-hide{
+      max-height:0
+  }
+  #samz ul{
+      margin:5px 0 0;
+      padding:0;
+      list-style:none;
+      max-height:700px
+  }
+  #samz ul li{
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      display:block;
+      margin:0;
+      padding:8px 20px;
+      cursor:pointer;
+      color:black;
+  }
+  #samz ul li:last-child{
+      padding-bottom:13px
+  }
+  #samz ul li:nth-child(odd){
+      background:black;
+  }
+  #samz ul li.samz-active{
+      color:#39FF14;
+  }
+  #samz ul li .samz-desc{
+      font-size:90%;
+      opacity:.5;
+      margin-left:5px
+  }
+  #samz ul{
+      overflow-y:auto;
+      overflow-x:hidden;
+      scrollbar-color:#73797f #2f3841
+  }
+  #samz ul::-webkit-scrollbar-track{
+      background-color:#2f3841
+  }
+  #samz ul::-webkit-scrollbar{
+      width:6px;
+      background-color:#2f3841
+  }
+  #samz ul::-webkit-scrollbar-thumb{
+      background-color:#73797f
+  }
+  @-webkit-keyframes audio-progress{
+      to{
+          background-position:25px 0
+      }
+  }
+  @keyframes audio-progress{
+      to{
+          background-position:25px 0
+      }
+  }
+  @media screen and (max-width:480px){
+      #samz .samz-controls .samz-volume,#samz .samz-controls .samz-others{
+          display:none
+      }
+      #samz .samz-controls .samz-time{
+          margin-right:10px
+      }
+      #samz ul{
+          margin:5px 0 0;
+          padding:0;
+          list-style:none;
+          max-height:400px
+      }
+      .btnz{
+          font-size:20px
+      }
+      #samz{
+          font-size:18px
+      }
+  }
+  @media screen and (max-width:370px){
+      #samz .samz-time .samz-slash,#samz .samz-time .end-time{
+          display:none
+      }
+  }
+  body{
+      background-color:black;/*#5A82F9 bg*/
+      height: max-content;
+  }
+  </style>
+<body>
+<header class="intro"></header>
+<main>
+<!-- start -->
+<div class="samz-audio-player" id="samz" data-config='{"shide_top":false,"shide_btm":false,"auto_load":false}'>
+  <div class="samz-playlist">
+    
+<ul>
+    
+<ul>
+  <li class="samz-active">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_ARTIFICIAL_NOISE.mp3" data-cover="https://samz-site.com/sh/cover/_ARTIFICIAL_NOISE.mp3.jpg">ARTIFICIAL NOISE
+  </span>
+  
+  <span class="samz-desc">KLOFAMA
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_As_Above_So_Below.mp3" data-cover="https://samz-site.com/sh/cover/_As_Above_So_Below.mp3.jpg">As Above, So Below
+  </span>
+  
+  <span class="samz-desc">Jånks/Dy Vertigo
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Asi_Mucke.mp3" data-cover="https://samz-site.com/sh/cover/_Asi_Mucke.mp3.jpg">Asi Mucke
+  </span>
+  
+  <span class="samz-desc">JAZZY/Kursed System
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Chin_Hitter.mp3" data-cover="https://samz-site.com/sh/cover/_Chin_Hitter.mp3.jpg">Chin Hitter
+  </span>
+  
+  <span class="samz-desc">SLVL
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_CIVIL_DISORDER.mp3" data-cover="https://samz-site.com/sh/cover/_CIVIL_DISORDER.mp3.jpg">CIVIL DISORDER
+  </span>
+  
+  <span class="samz-desc">RoNIN/Kursed System
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Cluster_Bomb_Insanity_VIP.mp3" data-cover="https://samz-site.com/sh/cover/_Cluster_Bomb_Insanity_VIP.mp3.jpg">Cluster Bomb - Insanity VIP
+  </span>
+  
+  <span class="samz-desc">USH
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Cyanide.mp3" data-cover="https://samz-site.com/sh/cover/_Cyanide.mp3.jpg">Cyanide
+  </span>
+  
+  <span class="samz-desc">Manareïm/Insect
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Dark_Labyrinth.mp3" data-cover="https://samz-site.com/sh/cover/_Dark_Labyrinth.mp3.jpg">Dark Labyrinth
+  </span>
+  
+  <span class="samz-desc">Gostwork/Raxeller
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Falling.mp3" data-cover="https://samz-site.com/sh/cover/_Falling.mp3.jpg">Falling
+  </span>
+  
+  <span class="samz-desc">XMXKX/Ragasa
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Feel_The_Rhythm.mp3" data-cover="https://samz-site.com/sh/cover/_Feel_The_Rhythm.mp3.jpg">Feel The Rhythm
+  </span>
+  
+  <span class="samz-desc">Stretch
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Flashback.mp3" data-cover="https://samz-site.com/sh/cover/_Flashback.mp3.jpg">Flashback
+  </span>
+  
+  <span class="samz-desc">|NMLS|
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Hell_VIP.mp3" data-cover="https://samz-site.com/sh/cover/_Hell_VIP.mp3.jpg">Hell VIP
+  </span>
+  
+  <span class="samz-desc">kult
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Her_Serpent_Kiss.mp3" data-cover="https://samz-site.com/sh/cover/_Her_Serpent_Kiss.mp3.jpg">Her Serpent Kiss
+  </span>
+  
+  <span class="samz-desc">BSLS
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Intrusive_Thoughts.mp3" data-cover="https://samz-site.com/sh/cover/_Intrusive_Thoughts.mp3.jpg">Intrusive Thoughts
+  </span>
+  
+  <span class="samz-desc">Raxeller
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Let_Me_Purge.mp3" data-cover="https://samz-site.com/sh/cover/_Let_Me_Purge.mp3.jpg">Let Me Purge
+  </span>
+  
+  <span class="samz-desc">XÆNN
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Lost_Myself_to_the_Stars.mp3" data-cover="https://samz-site.com/sh/cover/_Lost_Myself_to_the_Stars.mp3.jpg">Lost Myself to the Stars
+  </span>
+  
+  <span class="samz-desc">Toxic Machinery/MOROS
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_LOVER.mp3" data-cover="https://samz-site.com/sh/cover/_LOVER.mp3.jpg">LOVER
+  </span>
+  
+  <span class="samz-desc">Pepsin
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_LUCID.mp3" data-cover="https://samz-site.com/sh/cover/_LUCID.mp3.jpg">LUCID
+  </span>
+  
+  <span class="samz-desc">Dy Vertigo
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Moloch_RUTHLESS_Remix.mp3" data-cover="https://samz-site.com/sh/cover/_Moloch_RUTHLESS_Remix.mp3.jpg">Moloch - RUTHLESS Remix
+  </span>
+  
+  <span class="samz-desc">Darkness In Eldorado/RUTHLESS
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Obey_My_Kick.mp3" data-cover="https://samz-site.com/sh/cover/_Obey_My_Kick.mp3.jpg">Obey My Kick
+  </span>
+  
+  <span class="samz-desc">Frik
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Passionate_Sex_with_the_Devil.mp3" data-cover="https://samz-site.com/sh/cover/_Passionate_Sex_with_the_Devil.mp3.jpg">Passionate Sex with the Devil
+  </span>
+  
+  <span class="samz-desc">Frik/Kursed System
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Polkadot.mp3" data-cover="https://samz-site.com/sh/cover/_Polkadot.mp3.jpg">Polkadot
+  </span>
+  
+  <span class="samz-desc">HRD.303
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Praying_for_Nightmares.mp3" data-cover="https://samz-site.com/sh/cover/_Praying_for_Nightmares.mp3.jpg">Praying for Nightmares
+  </span>
+  
+  <span class="samz-desc">KSPR/Kursed System
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_PROMISE_ME.mp3" data-cover="https://samz-site.com/sh/cover/_PROMISE_ME.mp3.jpg">PROMISE ME
+  </span>
+  
+  <span class="samz-desc">PLEXØS/TSA Records
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Radical_B36.mp3" data-cover="https://samz-site.com/sh/cover/_Radical_B36.mp3.jpg">Radical B36
+  </span>
+  
+  <span class="samz-desc">NVTØ/XC-DNTL
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Rebellion.mp3" data-cover="https://samz-site.com/sh/cover/_Rebellion.mp3.jpg">Rebellion
+  </span>
+  
+  <span class="samz-desc">MASOCHISMUS Kursed System
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_Satan_Hunter_1997.mp3" data-cover="https://samz-site.com/sh/cover/_Satan_Hunter_1997.mp3.jpg">Satan Hunter 1997
+  </span>
+  
+  <span class="samz-desc">D|K|OXY
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_So_Far_From_Heaven_Now.mp3" data-cover="https://samz-site.com/sh/cover/_So_Far_From_Heaven_Now.mp3.jpg">So Far From Heaven Now
+  </span>
+  
+  <span class="samz-desc">BSLS
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_So_Painstakingly_Violent_Jesus_lebt_Remix.mp3" data-cover="https://samz-site.com/sh/cover/_So_Painstakingly_Violent_Jesus_lebt_Remix.mp3.jpg">So Painstakingly Violent - Jesus_lebt Remix
+  </span>
+  
+  <span class="samz-desc">MILLPOND/Kursed System/Jesus_lebt
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_To_Pluto_And_Back.mp3" data-cover="https://samz-site.com/sh/cover/_To_Pluto_And_Back.mp3.jpg">To Pluto And Back
+  </span>
+  
+  <span class="samz-desc">FLUCC
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/_We_Are_All_Evil_Original_mix.mp3" data-cover="https://samz-site.com/sh/cover/_We_Are_All_Evil_Original_mix.mp3.jpg">We Are All Evil - Original mix
+  </span>
+  
+  <span class="samz-desc">INSECT
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Robbers.mp3" data-cover="https://samz-site.com/sh/cover/Robbers.jpg">Robbers
+  </span>
+  
+  <span class="samz-desc">The 1975
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Rocky_s_Late_Night.mp3" data-cover="https://samz-site.com/sh/cover/Rocky_s_Late_Night.jpg">Rocky's Late Night
+  </span>
+  
+  <span class="samz-desc">Albert Hammond Jr
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Selfless.mp3" data-cover="https://samz-site.com/sh/cover/Selfless.jpg">Selfless
+  </span>
+  
+  <span class="samz-desc">The Strokes
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Shabzadeh.mp3" data-cover="https://samz-site.com/sh/cover/Shabzadeh.jpg">Shabzadeh
+  </span>
+  
+  <span class="samz-desc">Ebi
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Shine_On_You_Crazy_Diamond_Pts_6_9_2011_Remaster.mp3" data-cover="https://samz-site.com/sh/cover/Shine_On_You_Crazy_Diamond_Pts_6_9_2011_Remaster.jpg">Shine On You Crazy Diamond, Pts. 6-9 - 2011 Remaster
+  </span>
+  
+  <span class="samz-desc">Pink Floyd
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Shirim.mp3" data-cover="https://samz-site.com/sh/cover/Shirim.jpg">Shirim
+  </span>
+  
+  <span class="samz-desc">Melody's Echo Chamber
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Somebody_That_I_Used_To_Know.mp3" data-cover="https://samz-site.com/sh/cover/Somebody_That_I_Used_To_Know.jpg">Somebody That I Used To Know
+  </span>
+  
+  <span class="samz-desc">Gotye/Kimbra
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/The_Diamond_Sea.mp3" data-cover="https://samz-site.com/sh/cover/The_Diamond_Sea.jpg">The Diamond Sea
+  </span>
+  
+  <span class="samz-desc">Sonic Youth
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/The_End.mp3" data-cover="https://samz-site.com/sh/cover/The_End.jpg">The End
+  </span>
+  
+  <span class="samz-desc">The Doors
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/The_Idol.mp3" data-cover="https://samz-site.com/sh/cover/The_Idol.jpg">The Idol
+  </span>
+  
+  <span class="samz-desc">W.A.S.P.
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/This_Must_Be_the_Place_Naive_Melody_2005_Remaster.mp3" data-cover="https://samz-site.com/sh/cover/This_Must_Be_the_Place_Naive_Melody_2005_Remaster.jpg">This Must Be the Place (Naive Melody) - 2005 Remaster
+  </span>
+  
+  <span class="samz-desc">Talking Heads
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Touch_Me_I_m_Going_To_Scream_Pt_2.mp3" data-cover="https://samz-site.com/sh/cover/Touch_Me_I_m_Going_To_Scream_Pt_2.jpg">Touch Me I'm Going To Scream, Pt. 2
+  </span>
+  
+  <span class="samz-desc">My Morning Jacket
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Us_And_Them_2011_Remastered_Version.mp3" data-cover="https://samz-site.com/sh/cover/Us_And_Them_2011_Remastered_Version.jpg">Us And Them - 2011 Remastered Version
+  </span>
+  
+  <span class="samz-desc">Pink Floyd
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Waiting.mp3" data-cover="https://samz-site.com/sh/cover/Waiting.jpg">Waiting
+  </span>
+  
+  <span class="samz-desc">Mac Ayres/Chris Anderson
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/We_Float.mp3" data-cover="https://samz-site.com/sh/cover/We_Float.jpg">We Float
+  </span>
+  
+  <span class="samz-desc">PJ Harvey
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/What_Love_Can_Be.mp3" data-cover="https://samz-site.com/sh/cover/What_Love_Can_Be.jpg">What Love Can Be
+  </span>
+  
+  <span class="samz-desc">Kingdom Come
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/White_Gloves.mp3" data-cover="https://samz-site.com/sh/cover/White_Gloves.jpg">White Gloves
+  </span>
+  
+  <span class="samz-desc">Khruangbin
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/Wild_Guess.mp3" data-cover="https://samz-site.com/sh/cover/Wild_Guess.jpg">Wild Guess
+  </span>
+  
+  <span class="samz-desc">Spector
+  </span></li>
+  <li class="samz-source">
+  
+  <span class="samz-source" data-src="https://s3.eu-north-1.amazonaws.com/samz-site.com/pershan/trklist/You_Know_What_I_Mean.mp3" data-cover="https://samz-site.com/sh/cover/You_Know_What_I_Mean.jpg">You Know What I Mean
+  </span>
+  
+  <span class="samz-desc">Cults
+  </span></li>
+  </ul>
+  
+  
+  </div>
+<!---------------------------------------------------------------FOOTER-----------------------------------------------------
+<div class="samz-footer" aria-hidden="true" >
+  <a href="https://open.spotify.com/playlist/5i7RcgcJDcFmZl5MwgFMVa?si=8bf83acc112a4968" target="_blank"><i class="fa fa-spotify" ></i></a>
+  <a href="https://youtube.com/playlist?list=PL9-F2Fr-fDgeKrTVAC6S8tP1ABs-LhiI8&si=RGE_n1XRQ_bh3AeT" target="_blank" title="index"><i class="fa fa-youtube-play" ></i></a>
+  <a href="https://t.me/+K6ttHx_LB8w3Y2E0" target="_blank"><i class="fa fa-telegram" ></i></a>
+  <a id="style-change-button"><i  class="fa fa-lightbulb-o" aria-hidden="true" style="color: #39FF14; background-color: transparent; cursor: pointer;"></i></a><br>
+  <a id="copyButton" onclick="copyText()"><i id="copyIcon" aria-hidden="true" style="cursor: pointer; font-size: 20px;">copy link</i></a><span id="copyText" style="display: none; font-size: 20px;">Link Copied</span><p id="textToCopy" style="display: none;">https://samz-site.com/samz</p>
+  <div class="samzback"><a href="https://samz-site.com" target="_blank">samz site</a></div>
+</div>
+-------------------------------FOOTER-------------------------------------------------------------->   
+</div>
+</main>     
+<!-- END  -->
+<!-- JS -->
+<script>
+/*
+*/
+// Multiple events to a listener
+function addEventListener_multi(element, eventNames, handler) {
+  var events = eventNames.split(' ');
+  events.forEach(e => element.addEventListener(e, handler, false));
+}
+
+// Random numbers in a specific range
+function getRandom(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// Position element inside element
+function getRelativePos(elm) {
+  var pPos = elm.parentNode.getBoundingClientRect(); // parent pos
+  var cPos = elm.getBoundingClientRect(); // target pos
+  var pos = {};
+
+  pos.top    = cPos.top    - pPos.top + elm.parentNode.scrollTop,
+  pos.right  = cPos.right  - pPos.right,
+  pos.bottom = cPos.bottom - pPos.bottom,
+  pos.left   = cPos.left   - pPos.left;
+
+  return pos;
+}
+
+function formatTime(val) {
+  var h = 0, m = 0, s;
+  val = parseInt(val, 10);
+  if (val > 60 * 60) {
+   h = parseInt(val / (60 * 60), 10);
+   val -= h * 60 * 60;
+  }
+  if (val > 60) {
+   m = parseInt(val / 60, 10);
+   val -= m * 60;
+  }
+  s = val;
+  val = (h > 0)? h + ':' : '';
+  val += (m > 0)? ((m < 10 && h > 0)? '0' : '') + m + ':' : '0:';
+  val += ((s < 10)? '0' : '') + s;
+  return val;
+}
+
+function samz_initTime() {
+  samz_controls.querySelector('.start-time').innerHTML = formatTime(samz_audio.currentTime); //calculate current value time
+  if (!samz_isStream) {
+    samz_controls.querySelector('.end-time').innerHTML = formatTime(samz_audio.duration); //calculate total value time
+    samz_progress.value = samz_audio.currentTime / samz_audio.duration * 100; //progress bar
+  }
+  
+  // ended of the audio
+  if (samz_audio.currentTime == samz_audio.duration) {
+    samz_controls.querySelector('.samz-plause').classList.remove('fa-pause');
+    samz_controls.querySelector('.samz-plause').classList.add('fa-play');
+    samz_audio.removeEventListener('timeupdate', samz_initTime);
+    
+    if (samz_isNext) { //auto load next audio
+      var elem;
+      samz_a_index++;
+      if (samz_a_index == samz_a_url.length) { //repeat all audio
+        samz_a_index = 0;
+        elem = samz_a_url[0];
+      } else {
+        elem = samz_a_url[samz_a_index];  
+      }
+      samz_changeAudio(elem);
+      samz_setAlbum(samz_a_index);
+    } else {
+      samz_isPlaying = false;
+    }
+  }
+}
+
+function samz_initAudio() {
+  // if readyState more than 2, audio file has loaded
+	samz_isLoaded = samz_audio.readyState == 4 ? true : false;
+  samz_isStream = samz_audio.duration == 'Infinity' ? true : false;
+  samz_controls.querySelector('.samz-plause').disabled = false;
+  samz_progress.disabled = samz_isStream ? true : false;
+  if (!samz_isStream) {
+    samz_progress.parentNode.classList.remove('samz-load','samz-loading');
+    samz_controls.querySelector('.end-time').innerHTML = formatTime(samz_audio.duration);
+  }
+  samz_audio.addEventListener('timeupdate', samz_initTime); //tracking load progress
+  if (samz_isLoaded && samz_isPlaying) samz_audio.play();
+  
+  // progress bar click event
+  addEventListener_multi(samz_progress, 'touchstart mousedown', function(e) {
+    if (samz_isStream) {
+      e.stopPropagation();
+      return false;
+    }
+    if (samz_audio.readyState == 4) {
+      samz_audio.removeEventListener('timeupdate', samz_initTime);
+      samz_audio.pause();
+    }
+  });
+  
+  addEventListener_multi(samz_progress, 'touchend mouseup', function(e) {
+    if (samz_isStream) {
+      e.stopPropagation();
+      return false;
+    }
+    if (samz_audio.readyState == 4) {
+      samz_audio.currentTime = samz_progress.value * samz_audio.duration / 100;
+      samz_audio.addEventListener('timeupdate', samz_initTime);
+      if (samz_isPlaying) samz_audio.play();
+    }
+  });
+}
+
+function samz_loadAudio(elem) {
+  samz_progress.parentNode.classList.add('samz-loading');
+  samz_controls.querySelector('.samz-plause').disabled = true;
+  samz_audio.querySelector('source').src = elem.dataset.src;
+  samz_audio.load();
+  
+  samz_audio.volume = parseFloat(samz_v_num / 100); //based on valume input value
+  samz_audio.addEventListener('canplaythrough', samz_initAudio); //play audio without stop for buffering
+  
+  // if audio fails to load, only IE/Edge 9.0 or above
+  samz_audio.addEventListener('error', function() {
+    alert('Please reload the page.');
+  });
+}
+
+function samz_setAlbum(index) {
+  samz_cover.innerHTML = samz_a_url[index].dataset.cover ? '<div style="background:url(' + samz_a_url[index].dataset.cover + ') no-repeat;background-size:cover;width:80px;height:80px;"></div>' : '<i class="fa fa-music fa-5x"></i>';
+  samz_title.innerHTML = samz_source[index].querySelector('.samz-source').innerHTML;
+  samz_artist.innerHTML = samz_source[index].querySelector('.samz-desc') ? samz_source[index].querySelector('.samz-desc').innerHTML : '';
+}
+
+function samz_changeAudio(elem) {
+	samz_isLoaded = false;
+  samz_controls.querySelector('.samz-prev').disabled = samz_a_index == 0 ? true : false;
+  samz_controls.querySelector('.samz-plause').disabled = samz_auto_load ? true : false;
+  samz_controls.querySelector('.samz-next').disabled = samz_a_index == samz_a_url.length-1 ? true : false;
+  samz_progress.parentNode.classList.add('samz-load');
+  samz_progress.disabled = true;
+  samz_progress.value = 0;
+  samz_controls.querySelector('.start-time').innerHTML = '00:00';
+  samz_controls.querySelector('.end-time').innerHTML = '00:00';
+  elem = samz_isRandom && samz_isNext ? samz_a_url[getRandom(0, samz_a_url.length-1)] : elem;
+  
+  // playlist, audio is running
+  for (var i = 0; i < samz_a_url.length; i++) {
+    samz_a_url[i].parentNode.classList.remove('samz-active');
+    if (samz_a_url[i] == elem) {
+      samz_a_index = i;
+      samz_a_url[i].parentNode.classList.add('samz-active');
+    }
+  }
+  
+  // scrolling to element inside element
+  var samz_active = getRelativePos(samz_source[samz_a_index]);
+  samz_source[samz_a_index].parentNode.scrollTop = samz_active.top;
+  
+  if (samz_auto_load || samz_isPlaying) samz_loadAudio(elem);
+  
+  if (samz_isPlaying) {
+    samz_controls.querySelector('.samz-plause').classList.remove('fa-play');
+    samz_controls.querySelector('.samz-plause').classList.add('fa-pause');
+  }
+}
+function samz_hide() {
+     samz_album.parentNode.classList.add('samz-hide');
+   samz_playlist.classList.add('samz-hide');
+}
+function samz_startScript() {
+  ap_samz = document.querySelector('#samz');
+  samz_audio = ap_samz.querySelector('#audio');
+  samz_album = ap_samz.querySelector('.samz-album');
+  samz_cover = samz_album.querySelector('.samz-cover');
+  samz_title = samz_album.querySelector('.samz-title');
+  samz_artist = samz_album.querySelector('.samz-artist');
+  samz_controls = ap_samz.querySelector('.samz-controls');
+  samz_progress = samz_controls.querySelector('.samz-progress');
+  samz_volume = samz_controls.querySelector('.samz-volume');
+  samz_v_slider = samz_volume.querySelector('.samz-v-slider');
+  samz_v_num = samz_v_slider.value; //default volume
+  samz_others = samz_controls.querySelector('.samz-others');
+  samz_auto_load = samz_config.auto_load; //auto load audio file
+  
+  if (samz_config.shide_top) samz_album.parentNode.classList.toggle('samz-hide');
+  if (samz_config.shide_btm) {
+    samz_playlist.classList.add('samz-display');
+    samz_playlist.classList.toggle('samz-hide');
+  }
+  
+  if (samz_a_url.length <= 1) {
+    samz_controls.querySelector('.samz-prev').style.display = 'none';
+    samz_controls.querySelector('.samz-next').style.display = 'none';
+    samz_others.querySelector('.samz-plext').style.display = 'none';
+    samz_others.querySelector('.samz-random').style.display = 'none';
+  }
+
+  // Playlist listeners
+  samz_source.forEach(function(item, index) {
+    if (item.classList.contains('samz-active')) samz_a_index = index; //playlist contains '.samz-active'
+    item.addEventListener('click', function() {
+      samz_audio.removeEventListener('timeupdate', samz_initTime);
+      samz_a_index = index;
+      samz_changeAudio(this.querySelector('.samz-source'));
+      samz_setAlbum(samz_a_index);
+    });
+  });
+  
+  // FIRST AUDIO LOAD =======
+  samz_changeAudio(samz_a_url[samz_a_index]);
+  samz_setAlbum(samz_a_index);
+  // FIRST AUDIO LOAD =======
+  
+  // Controls listeners
+  samz_controls.querySelector('.samz-plauseward').addEventListener('click', function(e) {
+    var eles = e.target.classList;
+    if (eles.contains('samz-plause')) {
+      if (samz_audio.paused) {
+        if (!samz_isLoaded) samz_loadAudio(samz_a_url[samz_a_index]);
+        samz_audio.play();
+        samz_isPlaying = true;
+        eles.remove('fa-play');
+        eles.add('fa-pause');
+      } else {
+        samz_audio.pause();
+        samz_isPlaying = false;
+        eles.remove('fa-pause');
+        eles.add('fa-play');
+      }
+    } else {
+      if (eles.contains('samz-prev') && samz_a_index != 0) {
+        samz_a_index = samz_a_index-1;
+        e.target.disabled = samz_a_index == 0 ? true : false;
+      } else if (eles.contains('samz-next') && samz_a_index != samz_a_url.length-1) {
+        samz_a_index = samz_a_index+1;
+        e.target.disabled = samz_a_index == samz_a_url.length-1 ? true : false;
+      }
+      samz_audio.removeEventListener('timeupdate', samz_initTime);
+      samz_changeAudio(samz_a_url[samz_a_index]);
+      samz_setAlbum(samz_a_index);
+    }
+  });
+  
+  // Audio volume
+  samz_volume.addEventListener('click', function(e) {
+    var eles = e.target.classList;
+    if (eles.contains('samz-mute')) {
+      if (eles.contains('fa-volume-up')) {
+        eles.remove('fa-volume-up');
+        eles.add('fa-volume-off');
+        samz_v_slider.value = 0;
+      } else {
+        eles.remove('fa-volume-off');
+        eles.add('fa-volume-up');
+        samz_v_slider.value = samz_v_num;
+      }
+    } else {
+      samz_v_num = samz_v_slider.value;
+      if (samz_v_num != 0) {
+        samz_controls.querySelector('.samz-mute').classList.remove('fa-volume-off');
+        samz_controls.querySelector('.samz-mute').classList.add('fa-volume-up');
+      }
+    }
+    samz_audio.volume = parseFloat(samz_v_slider.value / 100);
+  });
+  
+  // Others
+  samz_others.addEventListener('click', function(e) {
+    var eles = e.target.classList;
+    if (eles.contains('samz-plext')) {
+      samz_isNext = samz_isNext && !samz_isRandom ? false : true;
+      if (!samz_isRandom) samz_isRanext = samz_isRanext ? false : true;
+      eles.contains('samz-active') && !samz_isRandom ? eles.remove('samz-active') : eles.add('samz-active');
+    } else if (eles.contains('samz-random')) {
+      samz_isRandom = samz_isRandom ? false : true;
+      if (samz_isNext && !samz_isRanext) {
+        samz_isNext = false;
+        samz_others.querySelector('.samz-plext').classList.remove('samz-active');
+      } else {
+        samz_isNext = true;
+        samz_others.querySelector('.samz-plext').classList.add('samz-active');
+      }
+      eles.contains('samz-active') ? eles.remove('samz-active') : eles.add('samz-active');
+    } else if (eles.contains('samz-shide-top')) {
+      samz_album.parentNode.classList.toggle('samz-hide');
+    } else if (eles.contains('samz-shide-bottom')) {
+      samz_playlist.classList.add('samz-display');
+      samz_playlist.classList.toggle('samz-hide');
+    }
+  });
+}
+
+// Start samzle player
+if (document.querySelector('#samz')) {
+  var samz_auto_load, samz_audio, samz_album, samz_cover, samz_title, samz_artist, samz_controls, samz_progress, samz_volume, samz_v_slider, samz_v_num, samz_others;
+  var ap_samz = document.querySelector('#samz');
+  var samz_playlist = ap_samz.querySelector('.samz-playlist');
+  var samz_source = samz_playlist.querySelectorAll('li');
+  var samz_a_url = samz_playlist.querySelectorAll('[data-src]');
+  var samz_a_index = 0;
+  var samz_isPlaying = false;
+  var samz_isNext = false; //auto play
+  var samz_isRandom = false; //play random
+  var samz_isRanext = false; //check if before random starts, samz_isNext value is true
+  var samz_isStream = false; //radio streaming
+  var samz_isLoaded = false; //audio file has loaded
+  var samz_config = ap_samz.dataset.config ? JSON.parse(ap_samz.dataset.config) : {
+    shide_top: false, //show/hide album
+    shide_btm: false, //show/hide playlist
+    auto_load: false //auto load audio file
+  };
+  
+  var samz_elem = '';
+  samz_elem += '<audio id="audio" preload><source src="" type="audio/mpeg"></audio>';
+  samz_elem += '<div class="samz-display"><div class="samz-album w-full flex-wrap"><div class="samz-cover"><i class="fa fa-music fa-5x"></i></div><div class="samz-info"><div class="samz-title">Title</div><div class="samz-artist">Artist</div></div></div></div>';
+  samz_elem += '<div class="samz-controls flex-wrap flex-align">';
+  samz_elem += '<div class="samz-plauseward flex flex-align"><button type="button" class="samz-prev fa fa-backward" disabled></button><button type="button" class="samz-plause fa fa-play" disabled></button><button type="button" class="samz-next fa fa-forward" disabled></button></div>';
+  samz_elem += '<div class="samz-tracker samz-load"><input class="samz-progress" type="range" min="0" max="100" value="0" disabled/><div class="samz-buffer"></div></div>';
+  samz_elem += '<div class="samz-time flex flex-align"><span class="start-time">00:00</span><span class="samz-slash">&#160;/&#160;</span><span class="end-time">00:00</span></div>';
+  samz_elem += '<div class="samz-volume flex flex-align"><button type="button" class="samz-mute fa fa-volume-up"></button><input class="samz-v-slider" type="range" min="0" max="100" value="100"/></div>';
+  samz_elem += '<div class="samz-others flex flex-align"><button type="button" class="samz-plext fa fa-play-circle" title="Auto Play"></button><button type="button" class="samz-random fa fa-random" title="Random"></button><div class="samz-shide"><button type="button" class="samz-shide-bottom fa fa-caret-down" title="Show/Hide Playlist"></button></div></div>';
+  samz_elem += '</div>'; //samz-controls
+  
+  var samz_player = document.createElement('div');
+  samz_player.classList.add('samz-player');
+  samz_player.innerHTML = samz_elem;
+  ap_samz.insertBefore(samz_player, samz_playlist);
+  samz_startScript();
+  samz_hide();
+}
+</script>
+</body>
+</body>
+</html>
+
+
+
